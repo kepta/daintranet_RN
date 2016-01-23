@@ -1,0 +1,3 @@
+rootProject.name = 'daintranet_RN'
+
+include ':app'
