@@ -1,6 +1,7 @@
 // import Request from 'superagent';
 // import { MailParser } from '../mailparser/mailparser';
-import { isLoggedIn } from './auth';
+// import { firebaseRef } from './'
+import { firebaseRef, isLoggedIn } from './auth';
 // const local = window.location.href.indexOf('localhost');
 
 // const WRONGPASS = 'INVALID_PASSWORD';
@@ -68,19 +69,31 @@ export function getInbox(user) {
     .then(resp => resp.json())
     .then(resp => resp.m)
     .catch(e => {
-      console.log(e);
+      throw e;
     });
 }
 
 export function fetchIntranet(user) {
-  return fetch(`${BASEURL}/intranet`, makeGetHeaders(user))
-    .then(resp => resp.json())
-    .then(resp => {
+  return new Promise((res, rej) => {
+    firebaseRef.child('intranetData/tree').once('value', snap => {
+      const resp = JSON.parse(snap.val());
       intranet = resp;
-      timeStamp = intranet.timeStamp;
-      delete intranet.timeStamp;
-      return { intranet, timeStamp };
+      timeStamp = intranet.time;
+      delete intranet.kh_test;
+      delete intranet['log.txt'];
+      delete intranet['tree.json'];
+      delete intranet.time;
+      res({ ...user, appState: { ...user.appState, intranet, timeStamp } });
     });
+  });
+  // return fetch(`${BASEURL}/intranet`, makeGetHeaders(user))
+  //   .then(resp => resp.json())
+  //   .then(resp => {
+  //     intranet = resp;
+  //     timeStamp = intranet.timeStamp;
+  //     delete intranet.timeStamp;
+  //     return { ...user, intranet: { intranet, timeStamp } };
+  //   });
 }
 export function formQuery(path) {
   if (userFromCollege) {

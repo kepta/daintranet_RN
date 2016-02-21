@@ -44,7 +44,7 @@ export default class Folder extends React.Component {
         isMobile: this.props.isMobile,
       };
       // if (this.props.isMobile) {
-      return <ListItemMobile style={{ flex: 2 }} {...params} />;
+      return <ListItemMobile {...params} />;
       // }
       // return (<ListItem {...params}/>);
       // });
@@ -64,8 +64,8 @@ export default class Folder extends React.Component {
             <View style={style.updated}>
               {statusDisplay}
             </View>
-            <View>
-            {this.displayStructure(this.props.location)}
+            <View style={style.list}>
+              {this.displayStructure(this.props.location)}
             </View>
           </View>
       );
@@ -74,6 +74,13 @@ export default class Folder extends React.Component {
 
 style = StyleSheet.create({
   main: {
+    flex: 1,
     backgroundColor: 'yellow',
+  },
+  updated: {
+    flex: 0,
+  },
+  list: {
+    flex: 1,
   },
 });

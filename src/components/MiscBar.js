@@ -88,7 +88,6 @@ export default class MiscBar extends React.Component {
 
 styles = StyleSheet.create({
   main: {
-    height: 50,
     flexDirection: 'row',
     flex: 1,
     // backgroundColor: toolbarGray,

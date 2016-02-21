@@ -15,11 +15,12 @@ import ProgressBar from 'react-native-progress-bar';
 export default class Intranet extends React.Component {
     constructor(props) {
       super(props);
+      console.log(props);
       this.state = {
-        tree: null,
-        path: [],
+        tree: props.appState.intranet,
+        path: new Array(props.appState.intranet),
+        timeStamp: ParseDate.timeSince(props.appState.timeStamp),
         pathString: [],
-        timeStamp: null,
         previous: null,
         searchResult: false,
         searching: false,
@@ -28,31 +29,25 @@ export default class Intranet extends React.Component {
         hot: false,
         progress: 0,
       };
-      this._bind('getDirectoryTree', 'goForward', 'goBack',
+      this._bind('goForward', 'goBack',
                 'setSearch', 'goToStringPath', 'showAttachment',
                 'handleTabChange');
     }
-    componentDidMount() {
-      this.timeout = setTimeout(() => {
-        this.setState({ progress: this.state.progress + (0.4 * Math.random()) });
-      }, 1000);
-      this.getDirectoryTree();
-    }
-    getDirectoryTree() {
-      // console.log(this.props);
-      fetchIntranet(this.props.user).then((res, rej) => {
-        if (rej) {
-          // TODO: need to work on error, to let use press retry in case of fail
-          return console.log(rej);
-        }
-        // console.log(res);
-        this.setState({
-          tree: res.intranet,
-          path: new Array(res.intranet),
-          timeStamp: ParseDate.timeSince(res.timeStamp),
-        });
-      });
-    }
+    // getDirectoryTree() {
+    //   // console.log(this.props);
+    //   fetchIntranet(this.props.user).then((res, rej) => {
+    //     if (rej) {
+    //       // TODO: need to work on error, to let use press retry in case of fail
+    //       return console.log(rej);
+    //     }
+    //     // console.log(res);
+    //     this.setState({
+    //       tree: res.intranet,
+    //       path: new Array(res.intranet),
+    //       timeStamp: ParseDate.timeSince(res.timeStamp),
+    //     });
+    //   });
+    // }
 
     goToStringPath(pathArg) {
       const pathString = pathArg.split('/');
@@ -130,7 +125,7 @@ export default class Intranet extends React.Component {
         hot: false,
       });
     }
-    render() {
+    render() {    
       const progress = (
         <View style={{ marginTop: 500 }}>
           <View>
@@ -159,6 +154,6 @@ export default class Intranet extends React.Component {
         />
       );
       // console.log(!this.state.tree ? progress : IntranetDumbRef)
-      return !this.state.tree ? progress : IntranetDumbRef;
+      return !this.state.tree ? progress : <View style={{ flex: 1 }}>{IntranetDumbRef}</View>;
     }
 }

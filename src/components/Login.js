@@ -8,6 +8,8 @@ import React, {
 } from 'react-native';
 
 import Dimensions from 'Dimensions';
+import localStorage from '../storage/localStorage';
+
 const windowSize = Dimensions.get('window');
 let styles;
 export default class Login extends React.Component {
@@ -18,6 +20,15 @@ export default class Login extends React.Component {
       pass: undefined,
     };
     this._handleLogin = this._handleLogin.bind(this);
+  }
+  componentDidMount() {
+    Promise.all([localStorage.getItem('id_login'), localStorage.getItem('pass_login')])
+    .then(data => {
+      this.setState({
+        id: data[0],
+        pass: data[1],
+      });
+    });
   }
   _handleLogin() {
     this.props.setLogging({ id: this.state.id, pass: this.state.pass });
@@ -62,7 +73,7 @@ export default class Login extends React.Component {
               </View>
           </View>
           <TouchableHighlight onPress={this._handleLogin}>
-            <View style={styles.signin}å>
+            <View style={styles.signin}>
                 <Text style={styles.whiteFont}>Sign In</Text>
             </View>
           </TouchableHighlight>

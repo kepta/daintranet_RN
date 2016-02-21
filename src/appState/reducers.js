@@ -1,27 +1,19 @@
 import { combineReducers } from 'redux';
 import {
+        START_SCREEN,
         LOGGED_IN,
         LOGGED_OUT,
         LOGGING,
         LOGIN_ERROR,
         WINDOW_SET,
       } from './actions';
-import { isLoggedIn } from '../network/auth';
-// import base64 from 'base-64';
 
-const loggedIn = isLoggedIn().then(e => console.log(e));
-console.log(loggedIn);
-
-const initialLoginState = loggedIn ? {
-  STATUS: LOGGING,
-  ID: loggedIn.id,
-  PASS: loggedIn.pass,
-  TOKEN: loggedIn.token,
-} : {
-  STATUS: LOGGED_OUT,
+const initialLoginState = {
+  STATUS: START_SCREEN,
   ID: null,
   PASS: null,
   TOKEN: null,
+  APPSTATE: null,
 };
 
 const windowsState = {
@@ -46,15 +38,22 @@ function windows(state = windowsState, action) {
 }
 
 function login(state = initialLoginState, action) {
-  // console.log('here ', action);
   switch (action.type) {
     case LOGGED_IN:
       return Object.assign({}, state, {
         STATUS: action.type,
+        ID: action.id,
+        PASS: action.pass,
+        TOKEN: action.token,
+        APPSTATE: action.appState,
       });
     case LOGGED_OUT:
       return Object.assign({}, state, {
         STATUS: action.type,
+        ID: null,
+        PASS: null,
+        TOKEN: null,
+        APPSTATE: null,
       });
     case LOGGING:
       return Object.assign({}, state, {
@@ -62,10 +61,15 @@ function login(state = initialLoginState, action) {
         ID: action.id,
         PASS: action.pass,
         TOKEN: action.token,
+        APPSTATE: action.appState,
       });
     case LOGIN_ERROR:
       return Object.assign({}, state, {
         STATUS: action.type,
+        ID: null,
+        PASS: null,
+        TOKEN: null,
+        APPSTATE: null,
       });
     default:
       return state;
@@ -73,4 +77,5 @@ function login(state = initialLoginState, action) {
 }
 
 const reducer = combineReducers({ login, windows });
+
 export default reducer;

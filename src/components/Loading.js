@@ -5,8 +5,8 @@ import React, {
 } from 'react-native';
 import ProgressBar from 'react-native-progress-bar';
 
-import { login, isLoggedIn } from '../network/auth';
-import localStorage from '../storage/localStorage';
+// import { login, isLoggedIn } from '../network/auth';
+// import localStorage from '../storage/localStorage';
 
 let styles;
 export default class Loading extends React.Component {
@@ -18,32 +18,12 @@ export default class Loading extends React.Component {
     };
     this.timeout = null;
   }
-  componentDidMount() {
-    if (isLoggedIn() === false) {
-      login(this.props.user).then((authData) => {
-        console.log('setloggedin');
-        this.props.setLoggedIn();
-      }).catch(err => {
-        try {
-          console.error(err);
-          localStorage.setItem('LOGIN_ERROR', err.code); // TODO: err message ?
-        } catch (e) {
-          if (e) {
-            console.error(e);
-          }
-        }
-        this.props.setLoginError();
-      });
-    } else {
-      this.props.setLoggedIn();
-    }
-  }
   componentWillUnmount() {
     clearTimeout(this.timeout);
   }
   render() {
     this.timeout = setTimeout(() => {
-      this.setState({ progress: this.state.progress + (0.4 * Math.random()) });
+      this.setState({ progress: this.state.progress + (0.1 * Math.random()) });
     }, 1000);
     return (
       <View style={styles.container}>

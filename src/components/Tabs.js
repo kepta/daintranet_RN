@@ -3,6 +3,7 @@ import React, {
   View,
   Text,
   Platform,
+  TouchableHighlight,
 } from 'react-native';
 // import Base from '../Base';
 // import { HomeIcon, SearchIcon, HotIcon } from '../Icons';
@@ -29,21 +30,21 @@ export default class Tab extends React.Component {
     // const style = this.style();
     return (
       <View style={style.main}>
-        <View style={style.tab}>
+        <TouchableHighlight style={style.tab} onPress={this.handleClick.bind(this, 'search')}>
           <Text>
             Search
           </Text>
-        </View>
-        <View style={style.tab}>
+        </TouchableHighlight>
+        <TouchableHighlight style={style.tab} onPress={this.handleClick.bind(this, 'hot')}>
           <Text>
             Hot
           </Text>
-        </View>
-        <View style={style.tab}>
+        </TouchableHighlight>
+        <TouchableHighlight style={style.tab} onPress={this.handleClick.bind(this, 'home')}>
           <Text>
             Intranet
           </Text>
-        </View>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -52,12 +53,12 @@ export default class Tab extends React.Component {
 style = StyleSheet.create({
   main: {
     flex: 1,
-    height: 50,
     flexDirection: 'row',
+    height: 30,
   },
   tab: {
     width: 100,
-    flex: 25,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     // color: 'white',

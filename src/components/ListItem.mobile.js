@@ -48,11 +48,10 @@ export default class ListItemMobile extends React.Component {
           automaticallyAdjustContentInsets
           scrollEventThrottle={200}
           style={style.scrollView}
-          contentContainerStyle={style.contentContainerStyle}
         >
           {list}
         </ScrollView>
-      )
+      );
     }
 }
 
@@ -60,7 +59,7 @@ style = StyleSheet.create({
   main: {
     paddingLeft: 30,
     height: 68,
-    flex: 1,
+    // flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     borderStyle: 'solid',
@@ -71,9 +70,6 @@ style = StyleSheet.create({
   scrollView: {
     backgroundColor: '#6A85B1',
     flex: 11,
-  },
-  contentContainerStyle: {
-    flex: 1,
   },
   content: {
     flex: 1,

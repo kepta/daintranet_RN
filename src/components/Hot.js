@@ -1,22 +1,28 @@
-import React from 'react';
-import Base from '../Base';
-import { Avatar, ListDivider } from 'material-ui';
-import { FolderIcon, PdfIcon } from '../Icons';
-import { readTopFolders } from '../../network/firebase';
-import Loading from '../TroubleLoading';
-import ListItem from './ListItem';
+import React, {
+  StyleSheet,
+  View,
+  Text,
+  Platform,
+} from 'react-native';
+// import Base from '../Base';
+// import { Avatar, ListDivider } from 'material-ui';
+// import { FolderIcon, PdfIcon } from '../Icons';
+import { readTopFolders } from '../network/firebase';
+// import Loading from '../TroubleLoading';
+import ListItem from './ListItem.mobile';
 
 // import ListItem from './ListItem';
 
-export default class HotItem extends Base {
-
+export default class HotItem extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
         data: undefined,
       };
       this._bind('goForward', 'showAttachment');
+      console.log(props.user);
       readTopFolders(props.user).then((obj) => {
+        console.log(obj);
         const hot = Object.keys(obj).map((item, key) => {
           return {
             path: item.replace(/\^/g, '.').replace(/\*/g, '/'),
@@ -30,6 +36,9 @@ export default class HotItem extends Base {
         });
       });
     }
+    _bind(...methods) {
+      methods.forEach(method => this[method] = this[method].bind(this));
+    }
     goForward(x, item) {
       this.props.goToStringPath(item);
     }
@@ -37,29 +46,17 @@ export default class HotItem extends Base {
       this.props.showAttachment(x);
     }
     render() {
-      // console.log(this.state.data);
-      const style = this.style();
       const data = this.state.data ?
         (<ListItem
           items={this.state.data}
           goForward={this.goForward}
           showAttachment={this.showAttachment}
           fromSearch
-        />) : <Loading/>;
+        />) : <Text>Loading</Text>;
       return (
-        <div style={style.main}>
+        <View>
           {data}
-        </div>
+        </View>
       );
-    }
-    style() {
-      return {
-        main: {
-          height: '100%',
-          overflowY: 'scroll',
-          overflowX: 'hidden',
-          WebkitOverflowScrolling: 'touch',
-        },
-      };
     }
 }

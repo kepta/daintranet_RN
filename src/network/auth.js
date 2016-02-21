@@ -82,6 +82,7 @@ function authenticateUser(user) {
         localStorage.setItem('id', user.id);
         localStorage.setItem('pass', user.pass);
         localStorage.setItem('token', authData.token);
+        console.log(user, authData);
       } catch (e) {
         if (e) {
           return reject(e);
@@ -97,23 +98,35 @@ export function isLoggedIn() {
   const id = localStorage.getItem('id');
   const pass = localStorage.getItem('pass');
   const token = localStorage.getItem('token');
-  Promise.all([id, pass, token]).then(data => {
+  return Promise.all([id, pass, token]).then(data => {
     return { id: data[0], pass: data[1], token: data[2] };
   });
 }
+
+
 export function login(user) {
   const safeUser = processUserEmail(user);
   const promise = Promise.resolve(safeUser);
-  return promise.then(authenticateUser)
-  .catch(error => {
-    if (error.code === NEWUSER) {
-      return getInbox(safeUser)
-            .then(createUser.bind(this, safeUser))
-            .then(authenticateUser.bind(this, safeUser));
+  return promise
+          .then(authenticateUser)
+          .catch(error => {
+            if (error.code === NEWUSER) {
+              return getInbox(safeUser)
+                    .then(createUser.bind(this, safeUser))
+                    .then(authenticateUser.bind(this, safeUser));
+            } else {
+              throw error;
+            }
+          });
+}
+
+export function checkLogin(user) {
+  console.log(user);
+  return new Promise((res, rej) => {
+    if (firebaseRef.getAuth()) {
+      return res(true);
     } else {
-      throw error;
+      return login(user);
     }
   });
-    // .then(readUserData);
-  // return ;
 }

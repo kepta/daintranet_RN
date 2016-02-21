@@ -7,7 +7,6 @@ import React, {
   Platform,
 } from 'react-native';
 import Tabs from './Tabs';
-// import SearchBar from './SearchBar';
 import MiscBar from './MiscBar';
 
 let styles;
@@ -49,27 +48,27 @@ export default class Viewer extends React.Component {
     render() {
       return (
         <View>
-          <View style={styles.appbar}>
-            <Text>
-              DAINTRANET
-            </Text>
-          </View>
-          <Tabs
-            search={this.props.search}
-            home={this.props.home}
-            hot={this.props.hot}
-            searching={this.props.searching}
-            handleTabChange={this.props.handleTabChange}
-          />
-          <MiscBar
-            setSearch={this.props.setSearch}
-            search={this.props.search}
-            home={this.props.home}
-            hot={this.props.hot}
-            goBack={this.props.goBack}
-            pathString={this.props.pathString}
-            goToStringPath={this.props.goToStringPath}
-          />
+            <View style={styles.appbar}>
+              <Text>
+                DAINTRANET
+              </Text>
+            </View>
+            <Tabs
+              search={this.props.search}
+              home={this.props.home}
+              hot={this.props.hot}
+              searching={this.props.searching}
+              handleTabChange={this.props.handleTabChange}
+            />
+            <MiscBar
+              setSearch={this.props.setSearch}
+              search={this.props.search}
+              home={this.props.home}
+              hot={this.props.hot}
+              goBack={this.props.goBack}
+              pathString={this.props.pathString}
+              goToStringPath={this.props.goToStringPath}
+            />
         </View>
       );
     }
@@ -80,13 +79,18 @@ styles = StyleSheet.create({
     position: 'relative',
     left: -20,
   },
-  appbar: {
-    marginTop: 30,
+  tab: {
     flex: 1,
+  },
+  misc: {
+    flex: 3,
+  },
+  appbar: {
+    marginTop: 20,
+    flex: 3,
     flexDirection: 'row',
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    // color: 'white',
   },
 });

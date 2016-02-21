@@ -12,13 +12,11 @@ let styles;
 
 export default class MainWrapper extends React.Component {
   render() {
-    // console.log(this.props);
     return (
-      <View style={styles.container}>
         <Intranet
           user={this.props.user}
+          appState={this.props.appState}
         />
-      </View>
     );
   }
 }
